@@ -1,4 +1,6 @@
+#[cfg(feature = "assets")]
 pub mod assets;
+
 pub mod compress;
 pub mod decompress;
 pub mod dictionary;

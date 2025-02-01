@@ -12,7 +12,7 @@ categories = ["text-processing"]
 license = "MIT"
 
 [features]
-cc-cedict = []
+cc-cedict = ["lindera-dictionary/assets"]
 compress = ["lindera-dictionary/compress"]
 
 [dependencies]
