@@ -1,0 +1,649 @@
+<!DOCTYPE HTML>
+<html lang="ja" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>v5 から v6 への移行 - Lindera ドキュメント</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> はじめに</a></li><li class="chapter-item expanded "><a href="architecture.html"><strong aria-hidden="true">2.</strong> アーキテクチャ</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">3.</strong> はじめる</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting_started/installation.html"><strong aria-hidden="true">3.1.</strong> インストール</a></li><li class="chapter-item expanded "><a href="getting_started/environment_variables.html"><strong aria-hidden="true">3.2.</strong> 環境変数</a></li><li class="chapter-item expanded "><a href="getting_started/quickstart.html"><strong aria-hidden="true">3.3.</strong> クイックスタート</a></li><li class="chapter-item expanded "><a href="getting_started/examples.html"><strong aria-hidden="true">3.4.</strong> サンプル</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">4.</strong> 基本概念</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts/morphological_analysis.html"><strong aria-hidden="true">4.1.</strong> 形態素解析</a></li><li class="chapter-item expanded "><a href="concepts/dictionaries.html"><strong aria-hidden="true">4.2.</strong> 辞書</a></li><li class="chapter-item expanded "><a href="concepts/tokenization.html"><strong aria-hidden="true">4.3.</strong> トークナイズ</a></li><li class="chapter-item expanded "><a href="concepts/user_dictionary.html"><strong aria-hidden="true">4.4.</strong> ユーザー辞書</a></li><li class="chapter-item expanded "><a href="concepts/filters.html"><strong aria-hidden="true">4.5.</strong> フィルタ</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="lindera-crf.html"><strong aria-hidden="true">5.</strong> Lindera CRF</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-crf/architecture.html"><strong aria-hidden="true">5.1.</strong> アーキテクチャ</a></li><li class="chapter-item expanded "><a href="lindera-crf/api_reference.html"><strong aria-hidden="true">5.2.</strong> APIリファレンス</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-dictionary.html"><strong aria-hidden="true">6.</strong> Lindera Dictionary</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-dictionary/architecture.html"><strong aria-hidden="true">6.1.</strong> アーキテクチャ</a></li><li class="chapter-item expanded "><a href="lindera-dictionary/api_reference.html"><strong aria-hidden="true">6.2.</strong> APIリファレンス</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-trainer.html"><strong aria-hidden="true">7.</strong> Lindera Trainer</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-trainer/architecture.html"><strong aria-hidden="true">7.1.</strong> アーキテクチャ</a></li><li class="chapter-item expanded "><a href="lindera-trainer/api_reference.html"><strong aria-hidden="true">7.2.</strong> APIリファレンス</a></li></ol></li><li class="chapter-item expanded "><a href="lindera.html"><strong aria-hidden="true">8.</strong> Lindera ライブラリ</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera/segmenter.html"><strong aria-hidden="true">8.1.</strong> セグメンタ</a></li><li class="chapter-item expanded "><a href="lindera/error_handling.html"><strong aria-hidden="true">8.2.</strong> エラーハンドリング</a></li><li class="chapter-item expanded "><a href="lindera/api_reference.html"><strong aria-hidden="true">8.3.</strong> APIリファレンス</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-analysis.html"><strong aria-hidden="true">9.</strong> Lindera Analysis</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-analysis/configuration.html"><strong aria-hidden="true">9.1.</strong> 設定</a></li><li class="chapter-item expanded "><a href="lindera-analysis/filters.html"><strong aria-hidden="true">9.2.</strong> フィルタ</a></li><li class="chapter-item expanded "><a href="lindera-analysis/architecture.html"><strong aria-hidden="true">9.3.</strong> アーキテクチャ</a></li><li class="chapter-item expanded "><a href="lindera-analysis/api_reference.html"><strong aria-hidden="true">9.4.</strong> APIリファレンス</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-cli.html"><strong aria-hidden="true">10.</strong> Lindera CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-cli/installation.html"><strong aria-hidden="true">10.1.</strong> インストール</a></li><li class="chapter-item expanded "><a href="lindera-cli/commands.html"><strong aria-hidden="true">10.2.</strong> コマンド</a></li><li class="chapter-item expanded "><a href="lindera-cli/tutorial.html"><strong aria-hidden="true">10.3.</strong> チュートリアル</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-python.html"><strong aria-hidden="true">11.</strong> Lindera Python</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-python/installation.html"><strong aria-hidden="true">11.1.</strong> インストール</a></li><li class="chapter-item expanded "><a href="lindera-python/quickstart.html"><strong aria-hidden="true">11.2.</strong> クイックスタート</a></li><li class="chapter-item expanded "><a href="lindera-python/tokenizer_api.html"><strong aria-hidden="true">11.3.</strong> トークナイザー API</a></li><li class="chapter-item expanded "><a href="lindera-python/dictionary_management.html"><strong aria-hidden="true">11.4.</strong> 辞書管理</a></li><li class="chapter-item expanded "><a href="lindera-python/text_processing_pipeline.html"><strong aria-hidden="true">11.5.</strong> テキスト処理パイプライン</a></li><li class="chapter-item expanded "><a href="lindera-python/training.html"><strong aria-hidden="true">11.6.</strong> 学習</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-nodejs.html"><strong aria-hidden="true">12.</strong> Lindera Node.js</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-nodejs/installation.html"><strong aria-hidden="true">12.1.</strong> インストール</a></li><li class="chapter-item expanded "><a href="lindera-nodejs/quickstart.html"><strong aria-hidden="true">12.2.</strong> クイックスタート</a></li><li class="chapter-item expanded "><a href="lindera-nodejs/tokenizer_api.html"><strong aria-hidden="true">12.3.</strong> トークナイザー API</a></li><li class="chapter-item expanded "><a href="lindera-nodejs/dictionary_management.html"><strong aria-hidden="true">12.4.</strong> 辞書管理</a></li><li class="chapter-item expanded "><a href="lindera-nodejs/text_processing_pipeline.html"><strong aria-hidden="true">12.5.</strong> テキスト処理パイプライン</a></li><li class="chapter-item expanded "><a href="lindera-nodejs/training.html"><strong aria-hidden="true">12.6.</strong> 学習</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-ruby.html"><strong aria-hidden="true">13.</strong> Lindera Ruby</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-ruby/installation.html"><strong aria-hidden="true">13.1.</strong> インストール</a></li><li class="chapter-item expanded "><a href="lindera-ruby/quickstart.html"><strong aria-hidden="true">13.2.</strong> クイックスタート</a></li><li class="chapter-item expanded "><a href="lindera-ruby/tokenizer_api.html"><strong aria-hidden="true">13.3.</strong> トークナイザー API</a></li><li class="chapter-item expanded "><a href="lindera-ruby/dictionary_management.html"><strong aria-hidden="true">13.4.</strong> 辞書管理</a></li><li class="chapter-item expanded "><a href="lindera-ruby/text_processing_pipeline.html"><strong aria-hidden="true">13.5.</strong> テキスト処理パイプライン</a></li><li class="chapter-item expanded "><a href="lindera-ruby/training.html"><strong aria-hidden="true">13.6.</strong> 学習</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-php.html"><strong aria-hidden="true">14.</strong> Lindera PHP</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-php/installation.html"><strong aria-hidden="true">14.1.</strong> インストール</a></li><li class="chapter-item expanded "><a href="lindera-php/quickstart.html"><strong aria-hidden="true">14.2.</strong> クイックスタート</a></li><li class="chapter-item expanded "><a href="lindera-php/tokenizer_api.html"><strong aria-hidden="true">14.3.</strong> トークナイザー API</a></li><li class="chapter-item expanded "><a href="lindera-php/dictionary_management.html"><strong aria-hidden="true">14.4.</strong> 辞書管理</a></li><li class="chapter-item expanded "><a href="lindera-php/text_processing_pipeline.html"><strong aria-hidden="true">14.5.</strong> テキスト処理パイプライン</a></li><li class="chapter-item expanded "><a href="lindera-php/training.html"><strong aria-hidden="true">14.6.</strong> 学習</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-wasm.html"><strong aria-hidden="true">15.</strong> Lindera WASM</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-wasm/installation.html"><strong aria-hidden="true">15.1.</strong> インストール</a></li><li class="chapter-item expanded "><a href="lindera-wasm/quickstart.html"><strong aria-hidden="true">15.2.</strong> クイックスタート</a></li><li class="chapter-item expanded "><a href="lindera-wasm/tokenizer_api.html"><strong aria-hidden="true">15.3.</strong> トークナイザー API</a></li><li class="chapter-item expanded "><a href="lindera-wasm/dictionary_management.html"><strong aria-hidden="true">15.4.</strong> 辞書管理</a></li><li class="chapter-item expanded "><a href="lindera-wasm/browser_usage.html"><strong aria-hidden="true">15.5.</strong> ブラウザでの使用</a></li><li class="chapter-item expanded "><a href="lindera-wasm/opfs.html"><strong aria-hidden="true">15.6.</strong> OPFS 辞書ストレージ</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="lindera-ipadic.html"><strong aria-hidden="true">16.</strong> Lindera IPADIC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-ipadic/dictionary_format.html"><strong aria-hidden="true">16.1.</strong> 辞書フォーマット</a></li><li class="chapter-item expanded "><a href="lindera-ipadic/build.html"><strong aria-hidden="true">16.2.</strong> ビルド</a></li><li class="chapter-item expanded "><a href="lindera-ipadic/examples.html"><strong aria-hidden="true">16.3.</strong> 使用例</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-ipadic-neologd.html"><strong aria-hidden="true">17.</strong> Lindera IPADIC NEologd</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-ipadic-neologd/dictionary_format.html"><strong aria-hidden="true">17.1.</strong> 辞書フォーマット</a></li><li class="chapter-item expanded "><a href="lindera-ipadic-neologd/build.html"><strong aria-hidden="true">17.2.</strong> ビルド</a></li><li class="chapter-item expanded "><a href="lindera-ipadic-neologd/examples.html"><strong aria-hidden="true">17.3.</strong> 使用例</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-unidic.html"><strong aria-hidden="true">18.</strong> Lindera UniDic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-unidic/dictionary_format.html"><strong aria-hidden="true">18.1.</strong> 辞書フォーマット</a></li><li class="chapter-item expanded "><a href="lindera-unidic/build.html"><strong aria-hidden="true">18.2.</strong> ビルド</a></li><li class="chapter-item expanded "><a href="lindera-unidic/examples.html"><strong aria-hidden="true">18.3.</strong> 使用例</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-sudachidict.html"><strong aria-hidden="true">19.</strong> Lindera SudachiDict</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-sudachidict/dictionary_format.html"><strong aria-hidden="true">19.1.</strong> 辞書フォーマット</a></li><li class="chapter-item expanded "><a href="lindera-sudachidict/build.html"><strong aria-hidden="true">19.2.</strong> ビルド</a></li><li class="chapter-item expanded "><a href="lindera-sudachidict/examples.html"><strong aria-hidden="true">19.3.</strong> 使用例</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-ko-dic.html"><strong aria-hidden="true">20.</strong> Lindera ko-dic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-ko-dic/dictionary_format.html"><strong aria-hidden="true">20.1.</strong> 辞書フォーマット</a></li><li class="chapter-item expanded "><a href="lindera-ko-dic/build.html"><strong aria-hidden="true">20.2.</strong> ビルド</a></li><li class="chapter-item expanded "><a href="lindera-ko-dic/examples.html"><strong aria-hidden="true">20.3.</strong> 使用例</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-cc-cedict.html"><strong aria-hidden="true">21.</strong> Lindera CC-CEDICT</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-cc-cedict/dictionary_format.html"><strong aria-hidden="true">21.1.</strong> 辞書フォーマット</a></li><li class="chapter-item expanded "><a href="lindera-cc-cedict/build.html"><strong aria-hidden="true">21.2.</strong> ビルド</a></li><li class="chapter-item expanded "><a href="lindera-cc-cedict/examples.html"><strong aria-hidden="true">21.3.</strong> 使用例</a></li></ol></li><li class="chapter-item expanded "><a href="lindera-jieba.html"><strong aria-hidden="true">22.</strong> Lindera Jieba</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lindera-jieba/dictionary_format.html"><strong aria-hidden="true">22.1.</strong> 辞書フォーマット</a></li><li class="chapter-item expanded "><a href="lindera-jieba/build.html"><strong aria-hidden="true">22.2.</strong> ビルド</a></li><li class="chapter-item expanded "><a href="lindera-jieba/examples.html"><strong aria-hidden="true">22.3.</strong> 使用例</a></li></ol></li><li class="chapter-item expanded "><a href="sudachidict.html"><strong aria-hidden="true">23.</strong> SudachiDict（カスタムビルド）</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="migration_v3_to_v4.html"><strong aria-hidden="true">24.</strong> v3 から v4 への移行</a></li><li class="chapter-item expanded "><a href="migration_v4_to_v5.html"><strong aria-hidden="true">25.</strong> v4 から v5 への移行</a></li><li class="chapter-item expanded "><a href="migration_v5_to_v6.html" class="active"><strong aria-hidden="true">26.</strong> v5 から v6 への移行</a></li><li class="chapter-item expanded "><a href="migration_v6_to_v7.html"><strong aria-hidden="true">27.</strong> v6 から v7 への移行</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="development.html"><strong aria-hidden="true">28.</strong> 開発ガイド</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="development/build_and_test.html"><strong aria-hidden="true">28.1.</strong> ビルドとテスト</a></li><li class="chapter-item expanded "><a href="development/feature_flags.html"><strong aria-hidden="true">28.2.</strong> Feature フラグ</a></li><li class="chapter-item expanded "><a href="development/project_structure.html"><strong aria-hidden="true">28.3.</strong> プロジェクト構成</a></li><li class="chapter-item expanded "><a href="development/training_pipeline.html"><strong aria-hidden="true">28.4.</strong> 学習パイプライン</a></li><li class="chapter-item expanded "><a href="development/contributing.html"><strong aria-hidden="true">28.5.</strong> 貢献ガイド</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Lindera ドキュメント</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/lindera/lindera" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="v5-から-v6-への移行"><a class="header" href="#v5-から-v6-への移行">v5 から v6 への移行</a></h1>
+<p>Lindera v6.0.0 では、ビルド済みユーザー辞書の再ビルドが必要になり、
+トークナイズ結果が 2 点（Decompose モードの精度修正と、新しいデフォルト
+有効な未知語機能）で変わり、JavaScript バインディングのトークン型が変わり、
+<code>lindera-dictionary</code> の一部 Rust API が改名されます。ほとんどのユーザーは
+辞書の再ビルドだけで済みますが、<code>lindera_dictionary::viterbi</code>/<code>mode</code> の型を
+直接使っている場合、JavaScript を使っている場合、未知語（辞書外の文字列）に
+対する厳密な旧出力に依存している場合は、追加で確認すべき点があります。</p>
+<p><strong>v5.2 以前</strong>からアップグレードする場合は、後述のシステム辞書フォーマット
+変更も対象になります。この変更は v5.3.0 で既にリリース済みのため、v5.3.0
+からのアップグレードではシステム辞書の再ビルドは不要です。ただしユーザー
+辞書の再ビルドは、これとは別の理由で必要です。</p>
+<h2 id="概要"><a class="header" href="#概要">概要</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>変更</th><th>影響範囲</th><th>対処方法</th></tr></thead><tbody>
+<tr><td><strong>ビルド済みユーザー辞書 <code>.bin</code> が読み込めなくなった</strong></td><td><code>.bin</code> からユーザー辞書を読み込むすべてのユーザー</td><td>CSV から <code>lindera build --user</code> で再ビルド</td></tr>
+<tr><td><strong>学習済み <code>model.dat</code> が読み込めなくなった</strong></td><td>以前のビルドで生成した <code>model.dat</code> を再利用しているユーザー</td><td><code>lindera train</code> を再実行</td></tr>
+<tr><td>Decompose モードの長さペナルティが非 3 バイト文字に対して正確になった</td><td>1・2・4 バイトの UTF-8 文字を含むテキストに対する <code>Mode::Decompose</code> の出力</td><td>対応不要（正確性修正）。出力を厳密に固定している場合は Decompose 出力を再確認</td></tr>
+<tr><td>未知語の候補ラダー（length ladder）がデフォルトで有効に</td><td>辞書外テキストに対する Normal・Decompose 両モードの出力</td><td>v5 と同一の出力が必要な場合は <code>unknown_word_ladder(false)</code> / <code>--disable-unknown-word-ladder</code> を設定</td></tr>
+<tr><td><code>max_grouping_len</code> オプションの新設（<code>--max-grouping-len</code>、config キー、builder/worker setter）</td><td>MeCab の <code>max-grouping-size</code> 相当の上限を使いたいユーザー</td><td>対応不要（デフォルトは従来どおり無制限）</td></tr>
+<tr><td>JS バインディングがプレーンオブジェクトを返すようになり <code>Token</code> クラスが廃止</td><td>Node.js・WASM ユーザー</td><td><code>token.getDetail(i)</code> を <code>token.details[i]</code> に置換。WASM ユーザーはフィールド名の camelCase 化にも対応</td></tr>
+<tr><td><strong>npm・PyPI のパッケージ名が変更</strong>（<code>lindera-nodejs</code> → <code>lindera</code>、<code>lindera-python</code> → <code>lindera</code>、WASM は <code>lindera-wasm</code> に統合）</td><td>npm・PyPI からバインディングをインストールしているユーザー</td><td>依存関係と import のパッケージ名を更新（<a href="#npmpypicratesio-%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E5%90%8D%E5%A4%89%E6%9B%B4">下記</a>参照）</td></tr>
+<tr><td><code>lindera_dictionary::viterbi</code>/<code>mode</code> の一部項目が改名・削除、<code>Lattice::set_text</code>/<code>set_text_nbest</code> に引数 2 つ追加</td><td><code>Lattice</code>/<code>Edge</code>/<code>Penalty</code>/<code>Mode</code> を直接利用するコード（<code>lindera</code> クレートの <code>Segmenter</code>/<code>Tokenizer</code>/<code>Worker</code> API 利用者は対象外）</td><td>下記の表に従い呼び出し箇所を更新</td></tr>
+<tr><td>ビルド済み辞書フォーマットがバージョン 2（<code>dict.da</code> → <code>dict.trie</code> + <code>dict.valsidx</code>）— <strong>v5.3.0 でリリース済み</strong></td><td><strong>v5.2 以前</strong>で作成した自前ビルドのシステム辞書</td><td><code>lindera build</code> で再ビルド、または <code>lindera download</code> で再取得</td></tr>
+<tr><td><code>loadDictionaryFromBytes()</code> が 9 引数 — <strong>v5.3.0 でリリース済み</strong></td><td><strong>v5.2 以前</strong>からアップグレードする、バイトデータから辞書を読み込む WASM ユーザー</td><td><code>dictDa</code> の代わりに <code>dictTrie</code> と <code>dictValsIdx</code> を渡す</td></tr>
+<tr><td>OPFS の <code>DictionaryFiles</code> が <code>dictDa</code> を <code>dictTrie</code> + <code>dictValsIdx</code> に置き換え — <strong>v5.3.0 でリリース済み</strong></td><td><strong>v5.2 以前</strong>からアップグレードする、<code>opfs</code> ヘルパーを使う WASM ユーザー</td><td>OPFS にキャッシュ済みの辞書を再ダウンロード</td></tr>
+</tbody></table>
+</div>
+<h2 id="npmpypicratesio-のパッケージ名変更"><a class="header" href="#npmpypicratesio-のパッケージ名変更">npm・PyPI・crates.io のパッケージ名変更</a></h2>
+<p>v6.0.0 から、公開パッケージ名がサフィックス付きの名前から素の名前
+（bare name）に統一されます:</p>
+<div class="table-wrapper"><table><thead><tr><th>レジストリ</th><th>旧パッケージ名</th><th>新パッケージ名</th></tr></thead><tbody>
+<tr><td>npm（Node.js 本体）</td><td><code>lindera-nodejs</code></td><td><code>lindera</code></td></tr>
+<tr><td>npm（プラットフォーム別）</td><td><code>lindera-nodejs-&lt;platform&gt;</code>（例: <code>lindera-nodejs-darwin-arm64</code>）</td><td><code>lindera-&lt;platform&gt;</code>（例: <code>lindera-darwin-arm64</code>）</td></tr>
+<tr><td>npm（WASM）</td><td><code>lindera-wasm-web</code> / <code>lindera-wasm-bundler</code></td><td><code>lindera-wasm</code>（単一パッケージ）</td></tr>
+<tr><td>PyPI</td><td><code>lindera-python</code></td><td><code>lindera</code></td></tr>
+</tbody></table>
+</div>
+<p>RubyGems の <code>lindera</code> と、crates.io のコアクレート（<code>lindera</code>・
+<code>lindera-dictionary</code> など）は変更ありません。</p>
+<h3 id="nodejsnpm"><a class="header" href="#nodejsnpm">Node.js（npm）</a></h3>
+<p><code>package.json</code> の依存関係と <code>require</code>/<code>import</code> のパッケージ名を更新してください:</p>
+<pre><code class="language-javascript">// v5
+const { TokenizerBuilder } = require("lindera-nodejs");
+
+// v6
+const { TokenizerBuilder } = require("lindera");
+</code></pre>
+<p>プラットフォーム別パッケージ（<code>optionalDependencies</code> 経由で自動的に
+解決されます）も <code>lindera-nodejs-&lt;platform&gt;</code> から <code>lindera-&lt;platform&gt;</code> に
+変わりますが、通常は明示的に依存指定していないため対応は不要です。</p>
+<p>旧 <code>lindera-nodejs</code> 系パッケージは npm 上で deprecated としてマークされます。
+公開済みの旧バージョンはそのまま残ります。</p>
+<h3 id="pythonpypi"><a class="header" href="#pythonpypi">Python（PyPI）</a></h3>
+<p>インストールコマンドと依存関係を更新してください:</p>
+<pre><code class="language-bash"># v5
+pip install lindera-python
+
+# v6
+pip install lindera
+</code></pre>
+<p><strong>Python の import 名は変わりません</strong> — 以前から <code>import lindera</code> であり、
+コードの変更は不要です。変わるのは PyPI 上の配布名だけです。</p>
+<p>移行を助けるため、<code>lindera-python</code> の最終リリースとして、新しい <code>lindera</code>
+パッケージに依存するだけの移行スタブ（transition stub）が PyPI に公開されます。
+<code>pip install lindera-python</code> は当面動作しますが、依存関係は <code>lindera</code> に
+切り替えてください。</p>
+<h3 id="wasmnpm"><a class="header" href="#wasmnpm">WASM（npm）</a></h3>
+<p><code>lindera-wasm-web</code> と <code>lindera-wasm-bundler</code> の 2 パッケージは、
+<code>wasm-pack --target web</code> でビルドされた単一の <code>lindera-wasm</code> パッケージに
+統合されます。</p>
+<p><code>lindera-wasm-web</code> を使っていた場合は、パッケージ名の置き換えのみです:</p>
+<pre><code class="language-javascript">// v5
+import __wbg_init, { TokenizerBuilder } from "lindera-wasm-web";
+await __wbg_init();
+
+// v6
+import init, { TokenizerBuilder } from "lindera-wasm";
+await init();
+</code></pre>
+<p><code>lindera-wasm-bundler</code> を使っていた場合も、同じ <code>lindera-wasm</code> パッケージを
+インストールします。ただし <code>web</code> ターゲットのビルドでは初期化が自動では
+行われないため、使用前にデフォルトエクスポートの非同期初期化関数を必ず
+呼び出してください:</p>
+<pre><code class="language-javascript">// v5（bundler ターゲット: 初期化はバンドラーが処理）
+import { TokenizerBuilder } from "lindera-wasm-bundler";
+
+// v6（web ターゲット: 明示的な初期化が必要）
+import init, { TokenizerBuilder } from "lindera-wasm";
+await init();
+</code></pre>
+<p>モダンなバンドラー（Vite、Webpack 5 の <code>asyncWebAssembly</code> など）は
+<code>web</code> ターゲットのビルドをそのまま扱えます。設定例は
+<a href="./lindera-wasm/browser_usage.html">ブラウザでの使用</a> を参照してください。</p>
+<h3 id="cratesio"><a class="header" href="#cratesio">crates.io</a></h3>
+<p>バインディングクレート（<code>lindera-python</code>・<code>lindera-nodejs</code>・<code>lindera-ruby</code>・
+<code>lindera-wasm</code>）は crates.io への公開を終了します。公開済みの 5.3.0 までの
+バージョンはそのまま残ります。これらは各言語のレジストリ（PyPI・npm・
+RubyGems）経由で利用するものであり、Rust クレートとして依存する用途は
+想定されていません。コアクレートは引き続き crates.io に公開されます。</p>
+<blockquote>
+<p>[!NOTE]
+v7.0.0 以降、<code>lindera</code> クレートは <code>lindera-segmenter</code> と <code>lindera-analysis</code> を
+束ねるファサードになり、<code>lindera-binding-core</code> は <code>lindera-binding</code> として
+公開されています。<a href="./migration_v6_to_v7.html">v6 から v7 への移行</a> を参照してください。</p>
+</blockquote>
+<h2 id="ビルド済みユーザー辞書の再ビルドが必要"><a class="header" href="#ビルド済みユーザー辞書の再ビルドが必要">ビルド済みユーザー辞書の再ビルドが必要</a></h2>
+<p>Lindera v6 では <code>daachorse</code> を 4.x から 5.0 に更新しており、ユーザー辞書が
+内部に持つ Aho-Corasick オートマトンのシリアライズ形式が変わりました。
+そのため、v5 系でビルドした <code>.bin</code> ファイルはロードに失敗します:</p>
+<pre><code class="language-text">LinderaError(kind=Deserialize, source=InvalidAutomatonError: invalid serialized automaton)
+</code></pre>
+<p>システム辞書と異なり、ユーザー辞書の <code>.bin</code> には <code>format_version</code> が無いため
+バージョン検査ができず、より親切なメッセージを出せません。上記の
+デシリアライズエラーとして表面化します。</p>
+<p>CSV から v6 で再ビルドしてください:</p>
+<pre><code class="language-sh">lindera build --user \
+  --src ./user_dict.csv \
+  --dest ./build \
+  --metadata ./lindera-ipadic/metadata.json
+</code></pre>
+<p><code>.bin</code> ではなく <code>.csv</code> からユーザー辞書を読み込んでいる場合は、ロード時に
+コンパイルされるため対応は不要です。</p>
+<h2 id="学習済みモデルファイルの再生成が必要"><a class="header" href="#学習済みモデルファイルの再生成が必要">学習済みモデルファイルの再生成が必要</a></h2>
+<p><code>lindera train</code> が書き出す <code>model.dat</code> がバイト単位で再現可能になりました。
+同じ入力・同じフラグで 2 回学習するとバイト列が一致するため、
+チェックサムの取得・キャッシュ・差分比較ができます。</p>
+<p>これを実現するため、連接行列と未知語カテゴリをハッシュマップではなく
+順序付きマップとして保持するようにしました。rkyv は archived <code>HashMap</code> を
+ソース走査順にレイアウトし、その順序はインスタンスごとにシードされるためです。
+ディスク上のレイアウトが変わるので、以前のビルドが書き出した <code>model.dat</code> は
+読み込みに失敗します。</p>
+<pre><code class="language-text">failed to deserialize model: ... re-run `lindera train` to regenerate it.
+</code></pre>
+<p><code>model.dat</code> は <code>lindera train</code> と <code>lindera export</code> の間の中間ファイルであり、
+配布物ではありません。<code>lindera train</code> を再実行して生成し直してください。
+旧モデルからすでにエクスポート済みの辞書には影響しません。また、
+学習された重みはどちらでも同一です。変わったのは直列化の順序だけです。</p>
+<p>関連する注意点が 2 つあります。</p>
+<ul>
+<li><code>SerializableModel::connection_matrix</code> と <code>SerializableModel::unk_categories</code> の型が
+<code>HashMap</code> から <code>BTreeMap</code> に変わりました。これらの公開フィールドを直接読んでいる
+場合にのみ影響します。ライターメソッド群は変更ありません。</li>
+<li>再現性は <code>--max-threads</code> の値によらず成り立ちます。勾配と損失は学習データの
+固定分割を固定順で加算するため、スレッド数は所要時間だけを変え、
+学習結果は変えません。</li>
+<li><code>lindera export</code> の出力もバイト単位で再現可能になりました。<code>metadata.json</code> は
+<code>updated_at</code> タイムスタンプを持たなくなり、各エクスポートライターは決定的な
+順序でエントリを書き出します。これに伴い Rust API から
+<code>ModelInfo.updated_at</code> フィールドを削除しました（<code>lindera-dictionary</code>）。
+このキーを含む既存の <code>metadata.json</code> は引き続き読み込めます。</li>
+<li><code>DictionaryRewriter::rewrite_cached</code> と <code>clear_cache</code> を削除しました。
+キャッシュは素性文字列全体をキーにしており、実辞書では行ごとにほぼ一意で
+一度もヒットせず、メモリを保持するだけだったためです。代わりに <code>rewrite</code>
+を呼んでください（<code>&amp;mut</code> も不要になりました）。</li>
+<li><code>FeatureExtractor::extract_*</code> 6 メソッドの <code>features</code> 引数を
+<code>&amp;[String]</code> から <code>&amp;[&amp;str]</code> に変更しました。呼び出し側がフィールドごとに
+<code>String</code> を確保する必要がなくなります。<code>&amp;[String]</code> を持っている場合は
+<code>&amp;v.iter().map(|s| s.as_str()).collect::&lt;Vec&lt;_&gt;&gt;()</code> で渡せます。</li>
+<li><code>lindera-wasm</code> からファイルシステム依存のエクスポート
+<code>loadUserDictionary</code> / <code>buildDictionary</code> / <code>buildUserDictionary</code> /
+<code>TokenizerBuilder.setUserDictionary(uri)</code>（と snake_case エイリアス）を
+削除しました。<code>wasm32-unknown-unknown</code> にはファイルシステムが無く、
+これらは常に実行時に失敗していました。システム辞書は
+<code>loadDictionaryFromBytes()</code>（または <code>embedded://</code>）で、ユーザー辞書は
+新設の <code>loadUserDictionaryFromBytes()</code> /
+<code>loadUserDictionaryBinFromBytes()</code> と <code>setUserDictionaryInstance()</code> で
+読み込んでください。<code>loadDictionary()</code> はファイル URI・パスを
+bytes API を案内するエラーで即座に拒否するようになりました。</li>
+<li>固定分割の導入で加算順が変わったため、この変更<strong>前</strong>に学習した重みと
+変更後に学習した重みはバイト単位では一致しません（<code>--max-threads 1</code> を
+含むすべてのスレッド数で）。以後の成果物を比較可能にするには
+<code>lindera train</code> を再実行してください。</li>
+</ul>
+<h2 id="辞書フォーマットバージョン-2v530-でリリース済み"><a class="header" href="#辞書フォーマットバージョン-2v530-でリリース済み">辞書フォーマットバージョン 2（v5.3.0 でリリース済み）</a></h2>
+<blockquote>
+<p>この変更は v6.0.0 ではなく <strong>v5.3.0</strong> でリリース済みです。v5.3.0 から
+アップグレードする場合、システム辞書は既にフォーマットバージョン 2 で
+あり、そのままロードできます。この節は <strong>v5.2 以前</strong>からアップグレード
+する場合にのみ従ってください。</p>
+</blockquote>
+<p>システム前方一致辞書は、シリアライズされた <code>daachorse</code> Aho-Corasick オートマトン
+（<code>dict.da</code>）として保存されなくなりました。ビルダはビルド時に <code>crawdad</code> で文字単位の
+ダブル配列トライを構築して <code>dict.trie</code> として書き出し、単語値への <code>u32</code> 累積和
+インデックス（<code>dict.valsidx</code>）を併せて出力します。実行時にはトライをシリアライズ済み
+バイト列上で直接走査するため、ロードはデシリアライズではなく O(1) のヘッダ検査で済み、
+<code>mmap</code> 下では他の大きなコンポーネントと同様に遅延ページングされたままになります。</p>
+<p>ビルド済み辞書ディレクトリは以下の 9 ファイルで構成されます:</p>
+<div class="table-wrapper"><table><thead><tr><th>ファイル</th><th>説明</th></tr></thead><tbody>
+<tr><td><code>metadata.json</code></td><td>辞書メタデータ（<code>format_version</code> を含むようになった）</td></tr>
+<tr><td><code>dict.trie</code></td><td>文字単位のダブル配列トライ構造（新規）</td></tr>
+<tr><td><code>dict.valsidx</code></td><td>単語値インデックス（新規）</td></tr>
+<tr><td><code>dict.vals</code></td><td>単語値データ</td></tr>
+<tr><td><code>dict.wordsidx</code></td><td>単語詳細インデックス</td></tr>
+<tr><td><code>dict.words</code></td><td>単語詳細（形態素素性）</td></tr>
+<tr><td><code>matrix.mtx</code></td><td>連接コスト行列</td></tr>
+<tr><td><code>char_def.bin</code></td><td>文字カテゴリ定義</td></tr>
+<tr><td><code>unk.bin</code></td><td>未知語辞書</td></tr>
+</tbody></table>
+</div>
+<p><code>dict.trie</code> と <code>dict.valsidx</code> 以外のファイルは v5 から変更ありません。<code>dict.da</code> は
+存在しなくなりました。</p>
+<h3 id="古い辞書のロードは明確なエラーで失敗する"><a class="header" href="#古い辞書のロードは明確なエラーで失敗する">古い辞書のロードは明確なエラーで失敗する</a></h3>
+<p>ビルド済み辞書の <code>metadata.json</code> は <code>format_version: 2</code> を記録し、ローダーがこれを検証
+します。v5.2 以前でビルドした辞書のロードは、ヘッダを持たないバイナリファイルを
+誤読する代わりに、対処方法を含むエラーで失敗します:</p>
+<pre><code class="language-text">Dictionary 'ipadic' has format version 1, but this build of Lindera reads format version 2. To fix this, rebuild it with `lindera build`, or download a matching prebuilt dictionary with `lindera download`.
+</code></pre>
+<h2 id="トークナイズ結果の変更"><a class="header" href="#トークナイズ結果の変更">トークナイズ結果の変更</a></h2>
+<p>上記のフォーマット変更とは異なり、以下の 2 点は同じ入力・同じ辞書でも
+<strong>Lindera が出力するトークン自体</strong>を変える可能性があります。</p>
+<h3 id="decompose-モードのペナルティ精度修正"><a class="header" href="#decompose-モードのペナルティ精度修正">Decompose モードのペナルティ精度修正</a></h3>
+<p><code>Mode::Decompose</code> の長さペナルティは、スパンの文字数を
+<code>(終了バイト位置 - 開始バイト位置) / 3</code> で近似していました。これは全体が
+3 バイト UTF-8 文字（一般的な漢字・かな）で構成されたテキストに対してのみ
+正確です。Lindera の Viterbi ラティスは内部的に文字単位で索引されるように
+なったため、ペナルティは実際の文字数を使うようになりました。この変更が
+影響するのは 1 バイト（ASCII）・2 バイト・4 バイト（絵文字や一部の CJK
+拡張文字など）の UTF-8 文字を含むスパンの Decompose 出力のみで、純粋な
+日本語の Decompose 出力には影響しません。これは挙動選択ではなくバグ修正の
+ため、旧来の（不正確な）挙動に戻すオプションはありません。</p>
+<h3 id="未知語の候補ラダー新規デフォルト有効"><a class="header" href="#未知語の候補ラダー新規デフォルト有効">未知語の候補ラダー（新規・デフォルト有効）</a></h3>
+<p>辞書に無い文字が連続する箇所に対して、MeCab や Vibrato は候補となる未知語の
+長さを <code>1..=LENGTH</code>（<code>LENGTH</code> は辞書の <code>char.def</code> にあるカテゴリごとの
+フィールド）まで段階的に（梯子＝ladder のように）生成し、Viterbi 探索に
+コスト最小の長さを選ばせます。Lindera は <code>char.def</code> から <code>LENGTH</code> を
+パースして保存はしていましたが、実行時には一切参照しておらず、常に
+1 文字の候補のみ（グルーピング対象カテゴリの場合はラン全体を覆う 1 候補のみ）
+しか生成していませんでした。</p>
+<p>v6.0.0 からは、このラダーがデフォルトで生成されるようになります。IPADIC で
+影響を受けるのは <code>KANJI</code>・<code>HIRAGANA</code>・<code>KATAKANA</code>（<code>LENGTH=2</code>）カテゴリで、
+それ以外の大半のカテゴリは <code>LENGTH=0</code> のため影響を受けません。実際の効果と
+しては、辞書に無い漢字・かなが連続する箇所で、1 文字ずつに分割するより
+複数文字でまとめたほうがコストが低い場合に、複数文字の未知語としてまとめて
+トークナイズされるようになります — 例えば、未知の 2 字熟語が従来は 2 つの
+未知語トークンに分かれていたのが、1 つの未知語トークンになります。</p>
+<p>これは後述の新オプション <code>max_grouping_len</code>（ラン全体のグルーピング上限）
+とは独立した、加算的な機能です。</p>
+<p>辞書外の漢字・かな連続を含むテキストで v5 と同一の出力を再現するには、
+ラダーを無効化してください:</p>
+<pre><code class="language-rust ignore">let segmenter = Segmenter::new(mode, dictionary, None)
+    .unknown_word_ladder(false);</code></pre>
+<pre><code class="language-sh">lindera tokenize -d ipadic --disable-unknown-word-ladder input.txt
+</code></pre>
+<p><code>AnalysisWorker</code>/<code>SegmentWorker</code> は <code>set_unknown_word_ladder(bool)</code>、
+<code>TokenizerBuilder</code> は <code>set_segmenter_unknown_word_ladder(bool)</code> で同じ
+切り替えができます。</p>
+<h3 id="新オプション-max_grouping_lenデフォルトは従来どおり"><a class="header" href="#新オプション-max_grouping_lenデフォルトは従来どおり">新オプション: <code>max_grouping_len</code>（デフォルトは従来どおり）</a></h3>
+<p>v6 では MeCab の <code>max-grouping-size</code> と同じ意味論を追加しました。各位置で、
+そこから始まる辞書外文字のグルーピング可能なランが先頭を除いて
+<code>max_grouping_len</code> 文字を超える場合、その位置ではグループ候補を出さず、
+1 文字候補（および候補ラダーと辞書語）が残ります。残りの末尾は上限に
+収まった時点で再びグルーピングされるため、未知語トークンは最長で
+<code>max_grouping_len + 1</code> 文字になります。デフォルトは無制限で、これは v5 と
+同じ挙動です。つまり <strong>明示的に設定しない限り何も変わりません</strong>:</p>
+<pre><code class="language-rust ignore">let segmenter = Segmenter::new(mode, dictionary, None)
+    .max_grouping_len(Some(24)); // MeCab 自体のデフォルト値</code></pre>
+<pre><code class="language-sh">lindera tokenize -d ipadic --max-grouping-len 24 input.txt
+</code></pre>
+<p><code>SegmentWorker</code>/<code>AnalysisWorker</code> の <code>set_max_grouping_len(Option&lt;usize&gt;)</code>、
+<code>TokenizerBuilder</code> の <code>set_segmenter_max_grouping_len(usize)</code>、および
+segmenter 設定の <code>max_grouping_len</code> キーでも指定できます。</p>
+<h2 id="lindera_dictionary-の-rust-api-変更"><a class="header" href="#lindera_dictionary-の-rust-api-変更"><code>lindera_dictionary</code> の Rust API 変更</a></h2>
+<p>以下は <code>lindera_dictionary::viterbi::{Lattice, Edge}</code> や
+<code>lindera_dictionary::mode::{Mode, Penalty}</code> を直接利用するコード（独自の
+ラティス検査や代替トークナイザーフロントエンドなど）にのみ影響します。
+<code>lindera</code> クレートの <code>Segmenter</code>・<code>Tokenizer</code>・<code>SegmentWorker</code>・
+<code>AnalysisWorker</code> API は影響を受けません — 上記の
+<code>unknown_word_ladder</code>/<code>max_grouping_len</code> オプションが追加されただけで、
+シグネチャの変更はありません。</p>
+<div class="table-wrapper"><table><thead><tr><th>v5</th><th>v6</th><th>理由</th></tr></thead><tbody>
+<tr><td><code>Lattice::text_len()</code></td><td><code>Lattice::char_len()</code></td><td>ラティスがバイト索引から文字索引に変わったため。改名により、バイト前提のコードは黙って誤動作せずコンパイルエラーになる</td></tr>
+<tr><td><code>Lattice::edges_at(pos)</code></td><td><code>Lattice::edges_at_char(pos)</code></td><td>同上（<code>pos</code> が文字位置になった）</td></tr>
+<tr><td><code>Lattice::paths_at(pos)</code></td><td><code>Lattice::paths_at_char(pos)</code></td><td>同上</td></tr>
+<tr><td><code>Lattice::capacity()</code> / <code>shrink_to(n)</code></td><td>名前は同じだが単位がバイトから文字（スロット）に</td><td>バイト長は依然として <code>shrink_to</code> の有効な（安全側に倒れる）引数として使える（文はバイト数より文字数の方が少ないため）</td></tr>
+<tr><td><code>Edge::num_chars()</code></td><td>削除</td><td>パック済み <code>Edge</code> は終了位置を保持しなくなった（常にラティススロットの添字と一致するため）ので、エッジ単体からは計算できなくなった</td></tr>
+<tr><td><code>Penalty::penalty(&amp;Edge)</code></td><td><code>Penalty::penalty(&amp;Edge, num_chars: usize)</code></td><td>呼び出し側が正確な文字数スパンを渡すようになった（前述の Decompose 精度修正を参照）</td></tr>
+<tr><td><code>Mode::penalty_cost(&amp;Edge)</code></td><td>削除</td><td>コードベース内に呼び出し元が無かった。必要であれば <code>Penalty::penalty</code> で再実装可能</td></tr>
+<tr><td><code>Lattice::set_text(..., search_mode)</code></td><td><code>Lattice::set_text(..., search_mode, max_grouping_len, unknown_word_ladder)</code></td><td>新オプション用に引数 2 つが末尾に追加。v6 のデフォルトに合わせるなら <code>None</code> と <code>true</code>、v5 の挙動にするなら <code>None</code> と <code>false</code> を渡す。<code>set_text_nbest</code> も同様に変更</td></tr>
+<tr><td>—</td><td><code>Lattice::take_max_char_len()</code>（新規）</td><td>加算的な追加。処理した最大の文長を返してリセットする（worker の縮小判定用）</td></tr>
+</tbody></table>
+</div>
+<p><code>set_text</code> と <code>set_text_nbest</code> には、文が <code>u16::MAX</code> 文字未満であることを
+検査する panic 契約も追加されました（エッジが開始位置を <code>u16</code> で保持する
+ようになったため）。<code>Segmenter</code> を経由する経路は <code>MAX_SENTENCE_BYTES</code> で
+文を分割するためすべて安全です。<code>Lattice</code> を直接駆動するコードだけが、
+自分で入力を分割する必要があります。</p>
+<h2 id="javascript-バインディング-トークンがプレーンオブジェクトに"><a class="header" href="#javascript-バインディング-トークンがプレーンオブジェクトに">JavaScript バインディング: トークンがプレーンオブジェクトに</a></h2>
+<p>これまで両 JS バインディングは <code>Token</code> クラスのインスタンスを返していました。
+これらのインスタンスは JavaScript ヒープの外にメモリを保持し、ホストが
+ファイナライザを実行して初めて解放されます。napi はそのファイナライザを
+イベントループへ遅延させ、wasm-bindgen は解放を呼び出し側に委ねるため、
+大きな入力を yield せずに同期ループでトークナイズすると、強制 GC を
+挟んでもメモリが蓄積していました。v6 では両バインディングともプレーン
+オブジェクトを返すようになり、メモリは JavaScript の GC が完全に管理します。</p>
+<p>実用上の利点: バッチループでメモリがフラットに保たれ、結果を
+<code>JSON.stringify</code>・<code>structuredClone</code>・worker への転送にそのまま使えます。</p>
+<h3 id="getdetaili-の廃止nodejswasm-共通"><a class="header" href="#getdetaili-の廃止nodejswasm-共通"><code>getDetail(i)</code> の廃止（Node.js・WASM 共通）</a></h3>
+<p>プレーンオブジェクトにメソッドは無いため、配列を直接参照してください:</p>
+<pre><code class="language-javascript">// v5
+const pos = token.getDetail(0);
+
+// v6
+const pos = token.details[0];
+</code></pre>
+<p>範囲外の読み出しは <code>null</code> ではなく <code>undefined</code> になります。</p>
+<h3 id="nodejs-tokenizeobjects-の廃止"><a class="header" href="#nodejs-tokenizeobjects-の廃止">Node.js: <code>tokenizeObjects</code> の廃止</a></h3>
+<p><code>tokenizeObjects</code> は上記のメモリ問題に対する v5 限定の回避策としてのみ
+存在していました。<code>tokenize</code> が同じプレーンオブジェクトを返すように
+なったため、呼び出しを置き換えてください:</p>
+<pre><code class="language-javascript">// v5
+const tokens = tokenizer.tokenizeObjects(text);
+
+// v6
+const tokens = tokenizer.tokenize(text);
+</code></pre>
+<p><code>tokenizeNbest</code> もプレーンオブジェクトを返すようになったため、v5 で
+既知の制約として記載していた蓄積の問題は解消されています。<code>NbestResult</code> も
+<code>Token</code> と同様にクラスではなくなり、同じ <code>tokens</code>・<code>cost</code> プロパティを
+持つプレーンオブジェクトになりました。</p>
+<p>どちらもクラスではなくなったため、パッケージから export されなくなりました。
+<code>Token</code>・<code>JsToken</code>・<code>NbestResult</code>・<code>JsNbestResult</code> はすべて <code>index.js</code> から
+削除され、<code>require("lindera").Token</code> は <code>undefined</code> になります。
+<code>instanceof</code> による判定もできません:</p>
+<pre><code class="language-javascript">// v5
+const { Token } = require("lindera-nodejs");
+if (tokens[0] instanceof Token) { /* ... */ }
+
+// v6 — プレーンオブジェクトなので、プロパティで判定する
+if (typeof tokens[0].surface === "string") { /* ... */ }
+</code></pre>
+<p>TypeScript 利用者へ: トークンを表すインターフェース名は <code>Token</code> になりました
+（<code>Token</code> がクラスに使われていた間は <code>JsTokenData</code> という名前でした）。</p>
+<h3 id="wasm-フィールド名が-camelcase-に"><a class="header" href="#wasm-フィールド名が-camelcase-に">WASM: フィールド名が camelCase に</a></h3>
+<p>廃止された <code>Token</code> クラスは snake_case のフィールドを公開する一方、
+同じクラスの <code>toJSON()</code> は既に camelCase を出力しており不整合がありました。
+v6 では Node.js バインディングに揃えて camelCase に統一します:</p>
+<pre><code class="language-javascript">// v5
+token.byte_start, token.byte_end, token.word_id, token.is_unknown
+
+// v6
+token.byteStart, token.byteEnd, token.wordId, token.isUnknown
+</code></pre>
+<p><code>surface</code>・<code>position</code>・<code>details</code> は変更ありません。既に <code>toJSON()</code> を
+呼んでその結果を読んでいたコードは、これらの名前を使っていたため
+そのまま動作します。ただし <code>toJSON()</code> 自体は、トークンが既にプレーン
+オブジェクトであるため廃止されました:</p>
+<pre><code class="language-javascript">// v5
+const data = token.toJSON();
+
+// v6
+const data = token; // 既にプレーンオブジェクト
+</code></pre>
+<p><code>Token</code> はモジュールから export されなくなったため、
+<code>import { Token } from 'lindera-wasm-...'</code> は失敗します。代わりに import
+すべきものはありません — <code>tokenize</code> が直接プレーンオブジェクトを返します。</p>
+<p>WASM の <code>tokenizeNbest</code> は v5 の時点で既にプレーンオブジェクトを
+返していたため、変更ありません。</p>
+<h2 id="対応が不要なケース"><a class="header" href="#対応が不要なケース">対応が不要なケース</a></h2>
+<ul>
+<li><strong>Python・Ruby・PHP バインディング</strong>: 上記の JavaScript の変更の影響を
+受けません。これらは解放が決定的であり、JS 側の作り直しの動機となった
+メモリ問題が元々無かったため、<code>Token</code> クラスをそのまま維持しています。
+それぞれプレーンデータへの変換メソッド（<code>to_dict()</code>、<code>to_h</code>（<code>to_hash</code>）、
+<code>toArray()</code>）が追加されましたが、削除・改名されたものはありません。</li>
+<li><strong><code>.csv</code> から読み込むユーザー辞書</strong>: ロード時にコンパイルされるため、
+新しいフォーマットが自動的に反映されます。（ビルド済みの <code>.bin</code> は
+再ビルドが<strong>必要</strong>です — 冒頭の節を参照してください。）</li>
+<li><strong><code>lindera</code> クレートの公開 API</strong>: <code>Segmenter</code>・<code>Tokenizer</code>・<code>SegmentWorker</code>・
+<code>AnalysisWorker</code> のシグネチャは変わっていません（加算的な
+<code>unknown_word_ladder</code>/<code>max_grouping_len</code> オプションを除く）。パスや URI から
+辞書をロードするコードは、辞書自体を再ビルドまたは再ダウンロードすればそのまま
+コンパイル・動作します。<code>embed-*</code> の埋め込み辞書は各辞書クレートのビルド
+スクリプトがコンパイルするため、常に実行中のバージョンと一致します。</li>
+</ul>
+<h2 id="アップグレードチェックリスト"><a class="header" href="#アップグレードチェックリスト">アップグレードチェックリスト</a></h2>
+<p>全員:</p>
+<ul>
+<li><strong>ビルド済みユーザー辞書 <code>.bin</code> を CSV から再ビルドする</strong>
+（<code>lindera build --user</code>）。どの v5 からのアップグレードでも必要です。</li>
+<li>辞書外・非日本語テキストに対するトークナイズ結果を厳密に固定している場合は
+再確認する — Decompose ペナルティ修正と未知語ラダー（デフォルト有効）の
+両方が結果を変える可能性がある。v5 と同一の未知語出力が必要なら
+<code>unknown_word_ladder(false)</code> を設定する。</li>
+</ul>
+<p>JavaScript（Node.js・WASM）:</p>
+<ul>
+<li>Node.js: <code>package.json</code> の依存を <code>lindera-nodejs</code> から <code>lindera</code> に変更し、
+<code>require</code>/<code>import</code> のパッケージ名を更新する。</li>
+<li>WASM: 依存を <code>lindera-wasm-web</code> / <code>lindera-wasm-bundler</code> から <code>lindera-wasm</code>
+に変更する。<code>lindera-wasm-bundler</code> を使っていた場合は、使用前に
+デフォルトエクスポートの初期化関数（<code>await init()</code>）を呼び出すコードを
+追加する。</li>
+<li><code>token.getDetail(i)</code> を <code>token.details[i]</code> に置き換える。</li>
+<li>Node.js: <code>tokenizeObjects(text)</code> を <code>tokenize(text)</code> に置き換え、
+<code>Token</code>/<code>NbestResult</code> の import をやめる（export されなくなったため）。
+TypeScript 利用者は型名 <code>JsTokenData</code> を <code>Token</code> に変更する。</li>
+<li>WASM: トークンのフィールド参照を camelCase に変更し（<code>byteStart</code>・
+<code>byteEnd</code>・<code>wordId</code>・<code>isUnknown</code>）、<code>toJSON()</code> の呼び出しを削除し、
+<code>Token</code> の import をやめる。</li>
+</ul>
+<p>Python:</p>
+<ul>
+<li>依存を <code>lindera-python</code> から <code>lindera</code> に変更する（<code>pip install lindera</code>）。
+<code>import lindera</code> はそのままで、コードの変更は不要。</li>
+</ul>
+<p><code>lindera_dictionary</code> を直接利用している場合:</p>
+<ul>
+<li>上記の Rust API 表に従い呼び出し箇所を更新する（<code>set_text</code>/<code>set_text_nbest</code>
+の追加引数 2 つを含む）。</li>
+</ul>
+<p>v5.2 以前からアップグレードする場合（以下は v5.3.0 でリリース済み）:</p>
+<ul>
+<li>自前ビルドのシステム辞書を <code>lindera build</code> で再ビルドするか、<code>lindera download</code> でビルド済み辞書を再取得する。</li>
+<li>WASM: <code>loadDictionaryFromBytes()</code> の呼び出しを 9 引数のシグネチャに更新する
+（<code>dictDa</code> の代わりに <code>dictTrie</code> と <code>dictValsIdx</code>）。</li>
+<li>WASM: v5 世代の辞書を OPFS から削除し、v6 のアーカイブをダウンロードする。</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="migration_v4_to_v5.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="migration_v6_to_v7.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="migration_v4_to_v5.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="migration_v6_to_v7.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>
